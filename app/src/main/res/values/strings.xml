@@ -1,0 +1,10 @@
+<resources>
+    <string name="app_name">BookListingApp</string>
+    <string name="title">Title</string>
+    <string name="author">Author</string>
+    <string name="publisher">Publisher</string>
+    <string name="search_title">Search</string>
+    <string name="search_hint">Type here to search..</string>
+    <string name="no_found">No Book found</string>
+    <string name="search_nothing">Insert text to search</string>
+</resources>
