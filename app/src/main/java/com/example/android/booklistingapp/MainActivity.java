@@ -7,13 +7,10 @@ import android.content.Loader;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.net.Uri;
-import android.support.v4.view.MenuItemCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.SearchView;
-import android.view.Menu;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ProgressBar;
@@ -25,7 +22,7 @@ import java.util.List;
 
 import static android.view.View.GONE;
 
-public class MainActivity extends AppCompatActivity implements SearchView.OnQueryTextListener, LoaderManager.LoaderCallbacks<List<Book>>{
+public class MainActivity extends AppCompatActivity implements LoaderManager.LoaderCallbacks<List<Book>>{
 
     private RecyclerView mRecyclerView;
     private BookRecyclerAdapter mAdapter;
@@ -46,6 +43,8 @@ public class MainActivity extends AppCompatActivity implements SearchView.OnQuer
         setContentView(R.layout.activity_main);
         mRecyclerView = (RecyclerView) findViewById(R.id.list_view);
 
+        // use this setting to improve performance if you know that changes
+        // in content do not change the layout size of the RecyclerView
         mRecyclerView.setHasFixedSize(true);
 
         // use a linear layout manager
@@ -69,7 +68,7 @@ public class MainActivity extends AppCompatActivity implements SearchView.OnQuer
 
         mEmptyStateTextView = (TextView) findViewById(R.id.empty_view);
         mLoadingIndicator = (ProgressBar) findViewById(R.id.loading_indicator);
-        mSearchEditText = (EditText) findViewById(R.id.btn_search);
+        mSearchEditText = (EditText) findViewById(R.id.edit_text_search);
 
         // Get a reference to the ConnectivityManager to check state of network connectivity
         ConnectivityManager connMgr = (ConnectivityManager)
@@ -101,29 +100,10 @@ public class MainActivity extends AppCompatActivity implements SearchView.OnQuer
     }
 
     @Override
-    public boolean onQueryTextSubmit(String query) {
-        mSearchQuery = query;
-        getLoaderManager().restartLoader(BOOK_LOADER_ID, null, this);
-        return true;
-    }
-
-    @Override
-    public boolean onQueryTextChange(String query) {
-        return true;
-    }
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.search, menu);
-        SearchView searchView = (SearchView) MenuItemCompat.getActionView(menu.findItem(R.id.btn_search));
-        searchView.setOnQueryTextListener(this);
-        return true;
-    }
-
-    @Override
     public Loader<List<Book>> onCreateLoader(int id, Bundle bundle) {
         mLoadingIndicator.setVisibility(View.VISIBLE);
         mRecyclerView.setVisibility(GONE);
+
         String searchInput = mSearchEditText.getText().toString();
 
         if(searchInput.length() == 0) {
@@ -137,7 +117,7 @@ public class MainActivity extends AppCompatActivity implements SearchView.OnQuer
 
         searchInput = searchInput.replace(" ", "+");
 
-        Uri baseUri = Uri.parse(GOOGLE_REQUEST_URL+searchInput);
+        Uri baseUri = Uri.parse(GOOGLE_REQUEST_URL + searchInput);
         Uri.Builder uriBuilder = baseUri.buildUpon();
 
         if(mSearchQuery!=null)
