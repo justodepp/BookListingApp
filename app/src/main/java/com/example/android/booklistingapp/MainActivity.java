@@ -68,52 +68,50 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
             @Override
             public void onClick(View v) {
 
+                // Create a new adapter that takes an empty list of book as input
+                mAdapter = new BookRecyclerAdapter(MainActivity.this, new ArrayList<Book>(), new BookRecyclerAdapter.OnItemClickListener() {
+                    @Override
+                    public void onItemClick(Book book) {
+                        String url = book.getInfoLinkId();
+                        Intent i = new Intent(Intent.ACTION_VIEW);
+                        i.setData(Uri.parse(url));
+                        startActivity(i);
+                    }
+                });
 
+                // Set the adapter on the {@link RecyclerView}
+                // so the list can be populated in the user interface
+                mRecyclerView.setAdapter(mAdapter);
 
+                // Get a reference to the ConnectivityManager to check state of network connectivity
+                final ConnectivityManager connMgr = (ConnectivityManager)
+                        getSystemService(Context.CONNECTIVITY_SERVICE);
+
+                // Get details on the currently active default data network
+                NetworkInfo networkInfo = connMgr.getActiveNetworkInfo();
+
+                // If there is a network connection, fetch data
+                if (networkInfo != null && networkInfo.isConnected()) {
+                    // Get a reference to the LoaderManager, in order to interact with loaders.
+                    LoaderManager loaderManager = getLoaderManager();
+
+                    // Initialize the loader. Pass in the int ID constant defined above and pass in null for
+                    // the bundle. Pass in this activity for the LoaderCallbacks parameter (which is valid
+                    // because this activity implements the LoaderCallbacks interface).
+                    loaderManager.initLoader(BOOK_LOADER_ID, null, MainActivity.this);
+                } else {
+                    // Otherwise, display error
+                    // First, hide loading indicator so error message will be visible
+                    mLoadingIndicator.setVisibility(View.GONE);
+
+                    mRecyclerView.setVisibility(View.GONE);
+                    mEmptyStateTextView.setVisibility(View.VISIBLE);
+
+                    // Update empty state with no connection error message
+                    mEmptyStateTextView.setText(R.string.no_internet_connection);
+                }
             }
         });
-        // Create a new adapter that takes an empty list of book as input
-        mAdapter = new BookRecyclerAdapter(this, new ArrayList<Book>(), new BookRecyclerAdapter.OnItemClickListener() {
-            @Override
-            public void onItemClick(Book book) {
-                String url = book.getInfoLinkId();
-                Intent i = new Intent(Intent.ACTION_VIEW);
-                i.setData(Uri.parse(url));
-                startActivity(i);
-            }
-        });
-
-        // Set the adapter on the {@link RecyclerView}
-        // so the list can be populated in the user interface
-        mRecyclerView.setAdapter(mAdapter);
-
-        // Get a reference to the ConnectivityManager to check state of network connectivity
-        final ConnectivityManager connMgr = (ConnectivityManager)
-                getSystemService(Context.CONNECTIVITY_SERVICE);
-
-        // Get details on the currently active default data network
-        NetworkInfo networkInfo = connMgr.getActiveNetworkInfo();
-
-        // If there is a network connection, fetch data
-        if (networkInfo != null && networkInfo.isConnected()) {
-            // Get a reference to the LoaderManager, in order to interact with loaders.
-            LoaderManager loaderManager = getLoaderManager();
-
-            // Initialize the loader. Pass in the int ID constant defined above and pass in null for
-            // the bundle. Pass in this activity for the LoaderCallbacks parameter (which is valid
-            // because this activity implements the LoaderCallbacks interface).
-            loaderManager.initLoader(BOOK_LOADER_ID, null, this);
-        } else {
-            // Otherwise, display error
-            // First, hide loading indicator so error message will be visible
-            mLoadingIndicator.setVisibility(View.GONE);
-
-            mRecyclerView.setVisibility(View.GONE);
-            mEmptyStateTextView.setVisibility(View.VISIBLE);
-
-            // Update empty state with no connection error message
-            mEmptyStateTextView.setText(R.string.no_internet_connection);
-        }
     }
 
     @Override
