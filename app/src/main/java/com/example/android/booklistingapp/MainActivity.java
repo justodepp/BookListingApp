@@ -27,20 +27,28 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
 
     private RecyclerView mRecyclerView;
     private BookRecyclerAdapter mAdapter;
-    private RecyclerView.LayoutManager mLayoutManager;
 
     private EditText mSearchEditText;
     private ImageView mSearch;
+
+    /** TextView that is displayed when the list is empty */
     private TextView mEmptyStateTextView;
     private ProgressBar mLoadingIndicator;
 
+    /** URL for earthquake data from the GOOGLE BOOK dataset */
     private static final String GOOGLE_REQUEST_URL = "https://www.googleapis.com/books/v1/volumes?q=";
+    /**
+     * Constant value for the book loader ID. We can choose any integer.
+     * This really only comes into play if you're using multiple loaders.
+     */
     private static final int BOOK_LOADER_ID = 1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        // Find a reference to the {@link RecyclerView} in the layout
         mRecyclerView = (RecyclerView) findViewById(R.id.list_view);
 
         // use this setting to improve performance if you know that changes
@@ -48,9 +56,22 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
         mRecyclerView.setHasFixedSize(true);
 
         // use a linear layout manager
-        mLayoutManager = new LinearLayoutManager(this);
+        RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(this);
         mRecyclerView.setLayoutManager(mLayoutManager);
 
+        mEmptyStateTextView = (TextView) findViewById(R.id.empty_view);
+        mLoadingIndicator = (ProgressBar) findViewById(R.id.loading_indicator);
+        mSearchEditText = (EditText) findViewById(R.id.edit_text_search);
+        mSearch = (ImageView) findViewById(R.id.search);
+
+        mSearch.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+
+
+            }
+        });
         // Create a new adapter that takes an empty list of book as input
         mAdapter = new BookRecyclerAdapter(this, new ArrayList<Book>(), new BookRecyclerAdapter.OnItemClickListener() {
             @Override
@@ -66,14 +87,8 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
         // so the list can be populated in the user interface
         mRecyclerView.setAdapter(mAdapter);
 
-        mSearch = (ImageView) findViewById(R.id.search);
-
-        mEmptyStateTextView = (TextView) findViewById(R.id.empty_view);
-        mLoadingIndicator = (ProgressBar) findViewById(R.id.loading_indicator);
-        mSearchEditText = (EditText) findViewById(R.id.edit_text_search);
-
         // Get a reference to the ConnectivityManager to check state of network connectivity
-        ConnectivityManager connMgr = (ConnectivityManager)
+        final ConnectivityManager connMgr = (ConnectivityManager)
                 getSystemService(Context.CONNECTIVITY_SERVICE);
 
         // Get details on the currently active default data network
@@ -133,10 +148,10 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
         mLoadingIndicator.setVisibility(View.GONE);
         mEmptyStateTextView.setVisibility(View.VISIBLE);
 
-        // Set empty state text to display "No earthquakes found."
+        // Set empty state text to display "No book found."
         mEmptyStateTextView.setText(R.string.no_found);
 
-        // Clear the adapter of previous earthquake data
+        // Clear the adapter of previous book data
         mAdapter.clear();
 
         // If there is a valid list of {@link Book}s, then add them to the adapter's

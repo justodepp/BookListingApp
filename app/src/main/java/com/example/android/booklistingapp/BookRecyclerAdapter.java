@@ -12,6 +12,7 @@ import android.widget.TextView;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class BookRecyclerAdapter extends RecyclerView.Adapter<BookRecyclerAdapter.ViewHolder> {
 
@@ -70,5 +71,23 @@ public class BookRecyclerAdapter extends RecyclerView.Adapter<BookRecyclerAdapte
             bookPublisherTextView = (TextView) itemView.findViewById(R.id.publisher);
         }
 
+        public void bind(final Book book, final OnItemClickListener listener) {
+            itemView.setOnClickListener(new View.OnClickListener() {
+                @Override public void onClick(View v) {
+                    listener.onItemClick(book);
+                }
+            });
+        }
+
+    }
+
+    public void clear(){
+        mBook.clear();
+        notifyDataSetChanged();
+    }
+
+    public void addAll(List<Book> book){
+        mBook.addAll(book);
+        notifyDataSetChanged();
     }
 }
