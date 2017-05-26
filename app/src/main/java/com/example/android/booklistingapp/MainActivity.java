@@ -13,6 +13,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -28,9 +29,8 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
     private BookRecyclerAdapter mAdapter;
     private RecyclerView.LayoutManager mLayoutManager;
 
-    private String mSearchQuery;
     private EditText mSearchEditText;
-
+    private ImageView mSearch;
     private TextView mEmptyStateTextView;
     private ProgressBar mLoadingIndicator;
 
@@ -65,6 +65,8 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
         // Set the adapter on the {@link RecyclerView}
         // so the list can be populated in the user interface
         mRecyclerView.setAdapter(mAdapter);
+
+        mSearch = (ImageView) findViewById(R.id.search);
 
         mEmptyStateTextView = (TextView) findViewById(R.id.empty_view);
         mLoadingIndicator = (ProgressBar) findViewById(R.id.loading_indicator);
@@ -119,9 +121,6 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
 
         Uri baseUri = Uri.parse(GOOGLE_REQUEST_URL + searchInput);
         Uri.Builder uriBuilder = baseUri.buildUpon();
-
-        if(mSearchQuery!=null)
-            uriBuilder.appendQueryParameter("q", mSearchQuery);
 
         ProgressBar loadingSpinner = (ProgressBar) findViewById(R.id.loading_indicator);
         loadingSpinner.setVisibility(View.VISIBLE);
