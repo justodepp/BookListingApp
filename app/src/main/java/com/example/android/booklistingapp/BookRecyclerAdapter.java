@@ -1,9 +1,11 @@
 package com.example.android.booklistingapp;
 
+import android.content.Context;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -14,11 +16,17 @@ import java.util.ArrayList;
 public class BookRecyclerAdapter extends RecyclerView.Adapter<BookRecyclerAdapter.ViewHolder> {
 
     ArrayList<Book> mBook;
+    private OnItemClickListener mListener;
     MainActivity mContext;
 
-    public BookRecyclerAdapter(MainActivity context, ArrayList<Book> book){
+    public interface OnItemClickListener {
+        void onItemClick(Book book);
+    }
+
+    public BookRecyclerAdapter(MainActivity context, ArrayList<Book> book, OnItemClickListener listener){
         mContext = context;
         mBook = book;
+        mListener = listener;
     }
 
     @Override

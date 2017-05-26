@@ -2,6 +2,7 @@ package com.example.android.booklistingapp;
 
 import android.app.LoaderManager;
 import android.content.Context;
+import android.content.Intent;
 import android.content.Loader;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
@@ -51,10 +52,18 @@ public class MainActivity extends AppCompatActivity implements SearchView.OnQuer
         mLayoutManager = new LinearLayoutManager(this);
         mRecyclerView.setLayoutManager(mLayoutManager);
 
-        // Create a new adapter that takes an empty list of earthquakes as input
-        mAdapter = new BookRecyclerAdapter(this, new ArrayList<Book>());
+        // Create a new adapter that takes an empty list of book as input
+        mAdapter = new BookRecyclerAdapter(this, new ArrayList<Book>(), new BookRecyclerAdapter.OnItemClickListener() {
+            @Override
+            public void onItemClick(Book book) {
+                String url = book.getInfoLinkId();
+                Intent i = new Intent(Intent.ACTION_VIEW);
+                i.setData(Uri.parse(url));
+                startActivity(i);
+            }
+        });
 
-        // Set the adapter on the {@link ListView}
+        // Set the adapter on the {@link RecyclerView}
         // so the list can be populated in the user interface
         mRecyclerView.setAdapter(mAdapter);
 
