@@ -2,7 +2,6 @@ package com.example.android.booklistingapp;
 
 import android.app.LoaderManager;
 import android.content.Context;
-import android.content.Intent;
 import android.content.Loader;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
@@ -10,6 +9,7 @@ import android.net.Uri;
 import android.support.v4.view.MenuItemCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SearchView;
 import android.view.Menu;
@@ -26,12 +26,16 @@ import static android.view.View.GONE;
 
 public class MainActivity extends AppCompatActivity implements SearchView.OnQueryTextListener, LoaderManager.LoaderCallbacks<List<Book>>{
 
-    private String mSearchQuery;
     private RecyclerView mRecyclerView;
+    private BookRecyclerAdapter mAdapter;
+    private RecyclerView.LayoutManager mLayoutManager;
+
+    private String mSearchQuery;
     private EditText mSearchEditText;
+
     private TextView mEmptyStateTextView;
     private ProgressBar mLoadingIndicator;
-    private BookRecyclerAdapter mAdapter;
+
     private static final String GOOGLE_REQUEST_URL = "https://www.googleapis.com/books/v1/volumes?q=";
     private static final int BOOK_LOADER_ID = 1;
 
@@ -39,11 +43,13 @@ public class MainActivity extends AppCompatActivity implements SearchView.OnQuer
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
         mRecyclerView = (RecyclerView) findViewById(R.id.list_view);
-        mEmptyStateTextView = (TextView) findViewById(R.id.empty_view);
-        mLoadingIndicator = (ProgressBar) findViewById(R.id.loading_indicator);
-        mSearchEditText = (EditText) findViewById(R.id.btn_search);
+
+        mRecyclerView.setHasFixedSize(true);
+
+        // use a linear layout manager
+        mLayoutManager = new LinearLayoutManager(this);
+        mRecyclerView.setLayoutManager(mLayoutManager);
 
         // Create a new adapter that takes an empty list of earthquakes as input
         mAdapter = new BookRecyclerAdapter(this, new ArrayList<Book>());
@@ -51,6 +57,10 @@ public class MainActivity extends AppCompatActivity implements SearchView.OnQuer
         // Set the adapter on the {@link ListView}
         // so the list can be populated in the user interface
         mRecyclerView.setAdapter(mAdapter);
+
+        mEmptyStateTextView = (TextView) findViewById(R.id.empty_view);
+        mLoadingIndicator = (ProgressBar) findViewById(R.id.loading_indicator);
+        mSearchEditText = (EditText) findViewById(R.id.btn_search);
 
         // Get a reference to the ConnectivityManager to check state of network connectivity
         ConnectivityManager connMgr = (ConnectivityManager)
@@ -72,6 +82,9 @@ public class MainActivity extends AppCompatActivity implements SearchView.OnQuer
             // Otherwise, display error
             // First, hide loading indicator so error message will be visible
             mLoadingIndicator.setVisibility(View.GONE);
+
+            mRecyclerView.setVisibility(View.GONE);
+            mEmptyStateTextView.setVisibility(View.VISIBLE);
 
             // Update empty state with no connection error message
             mEmptyStateTextView.setText(R.string.no_internet_connection);
