@@ -47,17 +47,6 @@
                     tools:text="@string/title" />
 
                 <TextView
-                    android:id="@+id/book_subtitle"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:ellipsize="end"
-                    android:padding="@dimen/paddingLeft"
-                    android:textAllCaps="true"
-                    android:textColor="@android:color/black"
-                    android:textSize="@dimen/textSizeTitle"
-                    tools:text="@string/title" />
-
-                <TextView
                     android:id="@+id/author"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"

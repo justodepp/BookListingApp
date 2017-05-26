@@ -39,7 +39,6 @@ public class BookRecyclerAdapter extends RecyclerView.Adapter<BookRecyclerAdapte
         Book book = mBook.get(position);
 
         holder.bookTitleTextView.setText(book.getTitleId());
-        holder.bookSubtitleTextView.setText(book.getSubtitleId());
         holder.bookAuthorTextView.setText(book.getAuthorId());
         holder.bookPublisherTextView.setText(book.getPublisherId());
 
@@ -58,7 +57,6 @@ public class BookRecyclerAdapter extends RecyclerView.Adapter<BookRecyclerAdapte
 
         ImageView bookThumbnailImageView;
         TextView bookTitleTextView;
-        TextView bookSubtitleTextView;
         TextView bookAuthorTextView;
         TextView bookPublisherTextView;
 
@@ -66,7 +64,6 @@ public class BookRecyclerAdapter extends RecyclerView.Adapter<BookRecyclerAdapte
             super(itemView);
             bookThumbnailImageView = (ImageView) itemView.findViewById(R.id.thumbnail);
             bookTitleTextView = (TextView) itemView.findViewById(R.id.book_title);
-            bookSubtitleTextView = (TextView) itemView.findViewById(R.id.book_subtitle);
             bookAuthorTextView = (TextView) itemView.findViewById(R.id.author);
             bookPublisherTextView = (TextView) itemView.findViewById(R.id.publisher);
         }
