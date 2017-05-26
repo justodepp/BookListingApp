@@ -1,11 +1,9 @@
 package com.example.android.booklistingapp;
 
-import android.content.Context;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -17,7 +15,7 @@ import java.util.List;
 public class BookRecyclerAdapter extends RecyclerView.Adapter<BookRecyclerAdapter.ViewHolder> {
 
     ArrayList<Book> mBook;
-    private OnItemClickListener mListener;
+    private static OnItemClickListener mListener;
     MainActivity mContext;
 
     public interface OnItemClickListener {
@@ -47,6 +45,8 @@ public class BookRecyclerAdapter extends RecyclerView.Adapter<BookRecyclerAdapte
 
         //we use Picasso Library to convert the url from JSONObject imageLinks to a image(@thumbnail)
         Picasso.with(mContext).load(book.getThumbnailId()).into(holder.bookThumbnailImageView);
+
+        holder.bind(mBook.get(position), mListener);
     }
 
     @Override
@@ -78,7 +78,6 @@ public class BookRecyclerAdapter extends RecyclerView.Adapter<BookRecyclerAdapte
                 }
             });
         }
-
     }
 
     public void clear(){
