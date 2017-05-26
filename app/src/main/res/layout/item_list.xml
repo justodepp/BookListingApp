@@ -8,9 +8,9 @@
         <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
             xmlns:tools="http://schemas.android.com/tools"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="?android:attr/listPreferredItemHeight"
             android:orientation="horizontal"
-            android:padding="8dp">
+            >
 
             <LinearLayout
                 android:layout_width="0dp"
@@ -40,17 +40,20 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:ellipsize="end"
+                    android:maxLines="1"
                     android:padding="@dimen/paddingLeft"
                     android:textAllCaps="true"
                     android:textColor="@android:color/black"
                     android:textSize="@dimen/textSizeTitle"
-                    tools:text="@string/title" />
+                    tools:text="@string/title"
+                    />
 
                 <TextView
                     android:id="@+id/author"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:paddingLeft="@dimen/paddingLeft"
+                    android:ellipsize="end"
+                    android:maxLines="1"
                     android:textColor="@color/author"
                     android:textSize="@dimen/textSizeRest"
                     tools:text="@string/author" />
@@ -59,8 +62,8 @@
                     android:id="@+id/publisher"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:paddingLeft="@dimen/paddingLeft"
-                    android:paddingBottom="@dimen/paddingLeft"
+                    android:ellipsize="end"
+                    android:maxLines="1"
                     android:textColor="@android:color/black"
                     android:textSize="@dimen/textSizeRest"
                     tools:text="@string/publisher" />
