@@ -8,18 +8,15 @@ public class Book {
 
     private String mTitle;
 
-    private String mSubtitle;
-
     private ArrayList<String> mAuthor;
 
     private String mPublisher;
 
     private String mInfoLink;
 
-    public Book(String thumbnail, String title, String subtitle, ArrayList<String> author, String publisher, String infoLink){
+    public Book(String thumbnail, String title, ArrayList<String> author, String publisher, String infoLink){
         mThumbnail = thumbnail;
         mTitle = title;
-        mSubtitle = subtitle;
         mAuthor = author;
         mPublisher = publisher;
         mInfoLink = infoLink;
@@ -31,9 +28,6 @@ public class Book {
         return mTitle;
     }
 
-    public String getSubtitleId(){
-        return mSubtitle;
-    }
 
     public String getAuthorId(){
         String authors = checkAuthors();

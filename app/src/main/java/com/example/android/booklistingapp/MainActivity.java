@@ -61,6 +61,8 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
 
         mEmptyStateTextView = (TextView) findViewById(R.id.empty_view);
         mLoadingIndicator = (ProgressBar) findViewById(R.id.loading_indicator);
+        // First, hide loading indicator so error message will be visible
+        mLoadingIndicator.setVisibility(View.GONE);
         mSearchEditText = (EditText) findViewById(R.id.edit_text_search);
         mSearch = (ImageView) findViewById(R.id.search);
 
@@ -131,12 +133,11 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
         }
 
         searchInput = searchInput.replace(" ", "+");
+        String query = GOOGLE_REQUEST_URL+searchInput;
 
-        Uri baseUri = Uri.parse(GOOGLE_REQUEST_URL + searchInput);
+        Uri baseUri = Uri.parse(query);
         Uri.Builder uriBuilder = baseUri.buildUpon();
 
-        ProgressBar loadingSpinner = (ProgressBar) findViewById(R.id.loading_indicator);
-        loadingSpinner.setVisibility(View.VISIBLE);
         return new BookLoader(this, uriBuilder.toString());
     }
 

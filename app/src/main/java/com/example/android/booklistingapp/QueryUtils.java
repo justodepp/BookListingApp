@@ -193,14 +193,6 @@ public final class QueryUtils {
                         authors.add("Uknown Author");
                     }
 
-                    // Extract the value for the key called "subtitle"
-                    String subtitle;
-                    if (volumeInfo.has("publisher")) {
-                        subtitle = volumeInfo.getString("subtitle");
-                    } else {
-                        subtitle = "No Subtitle";
-                    }
-
                     // Extract the value for the key called "publisher"
                     String publisher;
                     if (volumeInfo.has("publisher")) {
@@ -219,7 +211,7 @@ public final class QueryUtils {
 
                     // Create a new {@link Book} object with the info,
                     // and url from the JSON response.
-                    Book book = new Book(thumbnail,title,subtitle,authors,publisher,infoLink);
+                    Book book = new Book(thumbnail,title,authors,publisher,infoLink);
 
                     // Add the new {@link Earthquake} to the list of earthquakes.
                     books.add(book);
@@ -252,7 +244,7 @@ public final class QueryUtils {
             Log.e(LOG_TAG, "Problem making the HTTP request.", e);
         }
 
-        // Extract relevant fields from the JSON response and create a list of {@link Earthquake}s
+        // Extract relevant fields from the JSON response and create a list of {@link Book}s
         List<Book> books = extractFeatureFromJson(jsonResponse);
 
         // Return the list of {@link Book}s
