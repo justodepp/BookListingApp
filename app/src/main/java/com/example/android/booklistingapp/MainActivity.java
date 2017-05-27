@@ -23,25 +23,26 @@ import java.util.List;
 
 import static android.view.View.GONE;
 
-public class MainActivity extends AppCompatActivity implements LoaderManager.LoaderCallbacks<List<Book>>{
+public class MainActivity extends AppCompatActivity implements LoaderManager.LoaderCallbacks<List<Book>> {
 
-    private RecyclerView mRecyclerView;
-    private BookRecyclerAdapter mAdapter;
-
-    private EditText mSearchEditText;
-    private ImageView mSearch;
-
-    /** TextView that is displayed when the list is empty */
-    private TextView mEmptyStateTextView;
-    private ProgressBar mLoadingIndicator;
-
-    /** URL for earthquake data from the GOOGLE BOOK dataset */
+    /**
+     * URL for earthquake data from the GOOGLE BOOK dataset
+     */
     private static final String GOOGLE_REQUEST_URL = "https://www.googleapis.com/books/v1/volumes?q=";
     /**
      * Constant value for the book loader ID. We can choose any integer.
      * This really only comes into play if you're using multiple loaders.
      */
     private static final int BOOK_LOADER_ID = 1;
+    private RecyclerView mRecyclerView;
+    private BookRecyclerAdapter mAdapter;
+    private EditText mSearchEditText;
+    private ImageView mSearch;
+    /**
+     * TextView that is displayed when the list is empty
+     */
+    private TextView mEmptyStateTextView;
+    private ProgressBar mLoadingIndicator;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -100,7 +101,7 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
                     // Initialize the loader. Pass in the int ID constant defined above and pass in null for
                     // the bundle. Pass in this activity for the LoaderCallbacks parameter (which is valid
                     // because this activity implements the LoaderCallbacks interface).
-                    loaderManager.initLoader(BOOK_LOADER_ID, null, MainActivity.this);
+                    loaderManager.restartLoader(BOOK_LOADER_ID, null, MainActivity.this);
                 } else {
                     // Otherwise, display error
                     // First, hide loading indicator so error message will be visible
@@ -123,7 +124,7 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
 
         String searchInput = mSearchEditText.getText().toString();
 
-        if(searchInput.length() == 0) {
+        if (searchInput.length() == 0) {
             runOnUiThread(new Runnable() {
                 public void run() {
                     Toast.makeText(MainActivity.this, getResources().getString(R.string.search_nothing), Toast.LENGTH_SHORT).show();
@@ -133,7 +134,7 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
         }
 
         searchInput = searchInput.replace(" ", "+");
-        String query = GOOGLE_REQUEST_URL+searchInput;
+        String query = GOOGLE_REQUEST_URL + searchInput;
 
         Uri baseUri = Uri.parse(query);
         Uri.Builder uriBuilder = baseUri.buildUpon();
