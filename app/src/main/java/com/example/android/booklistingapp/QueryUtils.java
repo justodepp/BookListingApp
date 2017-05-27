@@ -36,7 +36,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Helper methods related to requesting and receiving earthquake data from GOOGLE BOOK.
+ * Helper methods related to requesting and receiving book data from GOOGLE BOOK.
  */
 public final class QueryUtils {
 
@@ -93,7 +93,7 @@ public final class QueryUtils {
                 Log.e(LOG_TAG, "Error response code: " + urlConnection.getResponseCode());
             }
         } catch (IOException e) {
-            Log.e(LOG_TAG, "Problem retrieving the earthquake JSON results.", e);
+            Log.e(LOG_TAG, "Problem retrieving the book JSON results.", e);
         } finally {
             if (urlConnection != null) {
                 urlConnection.disconnect();
@@ -154,15 +154,15 @@ public final class QueryUtils {
                 // which represents a list of books.
                 JSONArray bookArray = baseJsonResponse.getJSONArray("items");
 
-                // For each earthquake in the earthquakeArray, create an {@link Earthquake} object
+                // For each book in the bookArray, create an {@link Book} object
                 for (int i = 0; i < bookArray.length(); i++) {
 
-                    // Get a single earthquake at position i within the list of earthquakes
+                    // Get a single book at position i within the list of books
                     JSONObject currentBook = bookArray.getJSONObject(i);
 
-                    // For a given earthquake, extract the JSONObject associated with the
+                    // For a given book, extract the JSONObject associated with the
                     // key called "properties", which represents a list of all properties
-                    // for that earthquake.
+                    // for that book.
                     JSONObject volumeInfo = currentBook.getJSONObject("volumeInfo");
 
                     //Extract the imageLinks JSONObject
@@ -213,7 +213,7 @@ public final class QueryUtils {
                     // and url from the JSON response.
                     Book book = new Book(thumbnail,title,authors,publisher,infoLink);
 
-                    // Add the new {@link Earthquake} to the list of earthquakes.
+                    // Add the new {@link Book} to the list of books.
                     books.add(book);
                 }
             }
@@ -222,10 +222,10 @@ public final class QueryUtils {
             // If an error is thrown when executing any of the above statements in the "try" block,
             // catch the exception here, so the app doesn't crash. Print a log message
             // with the message from the exception.
-            Log.e("QueryUtils", "Problem parsing the earthquake JSON results", e);
+            Log.e("QueryUtils", "Problem parsing the book JSON results", e);
         }
 
-        // Return the list of earthquakes
+        // Return the list of books
         return books;
     }
 

@@ -42,7 +42,7 @@ public class BookRecyclerAdapter extends RecyclerView.Adapter<BookRecyclerAdapte
         holder.bookAuthorTextView.setText(book.getAuthorId());
         holder.bookPublisherTextView.setText(book.getPublisherId());
 
-        //we use Picasso Library to convert the url from JSONObject imageLinks to a image(@thumbnail)
+        //Picasso Library to convert the url from JSONObject imageLinks to a image(@thumbnail)
         Picasso.with(mContext).load(book.getThumbnailId()).into(holder.bookThumbnailImageView);
 
         holder.bind(mBook.get(position), mListener);

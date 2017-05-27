@@ -8,7 +8,7 @@ import android.os.Build;
 import java.util.List;
 
 /**
- * Loads a list of earthquakes by using an AsyncTask to perform the
+ * Loads a list of books by using an AsyncTask to perform the
  * network request to the given URL.
  */
 @TargetApi(Build.VERSION_CODES.HONEYCOMB)
@@ -51,7 +51,7 @@ public class BookLoader extends AsyncTaskLoader<List<Book>> {
             return null;
         }
 
-        // Perform the network request, parse the response, and extract a list of earthquakes.
+        // Perform the network request, parse the response, and extract a list of books.
         List<Book> books = QueryUtils.fetchBookData(mUrl);
         return books;
     }

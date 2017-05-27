@@ -26,7 +26,7 @@ import static android.view.View.GONE;
 public class MainActivity extends AppCompatActivity implements LoaderManager.LoaderCallbacks<List<Book>> {
 
     /**
-     * URL for earthquake data from the GOOGLE BOOK dataset
+     * URL for book data from the GOOGLE BOOK dataset
      */
     private static final String GOOGLE_REQUEST_URL = "https://www.googleapis.com/books/v1/volumes?q=";
     /**
